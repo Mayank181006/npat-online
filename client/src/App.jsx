@@ -6,7 +6,7 @@ import Lobby from './pages/Lobby';
 import GameRoom from './pages/GameRoom';
 import GlobalAudio from './components/GlobalAudio';
 
-const socket = io.connect("http://localhost:3001");
+const socket = io("https://npat-server-u2e9.onrender.com");
 
 function App() {
   return (
