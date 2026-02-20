@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+
+/* --- index.css --- */
+
+/* 1. Default Cursor (Paper Airplane) */
+body {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpolygon points='3,3 9,28 17,20' fill='%23A4FAFA' stroke='%232D2D2D' stroke-width='2' stroke-linejoin='round'/%3E%3Cpolygon points='3,3 17,20 22,16' fill='%239BAEAE' stroke='%232D2D2D' stroke-width='2' stroke-linejoin='round'/%3E%3Cpolygon points='3,3 22,16 30,12' fill='%23A4FAFA' stroke='%232D2D2D' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E") 3 3, auto;
+}
+
+/* 2. Hover Cursor for Buttons and Links (Same Paper Airplane) */
+button, 
+a, 
+input[type="submit"], 
+.cursor-pointer {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpolygon points='3,3 9,28 17,20' fill='%23A4FAFA' stroke='%232D2D2D' stroke-width='2' stroke-linejoin='round'/%3E%3Cpolygon points='3,3 17,20 22,16' fill='%239BAEAE' stroke='%232D2D2D' stroke-width='2' stroke-linejoin='round'/%3E%3Cpolygon points='3,3 22,16 30,12' fill='%23A4FAFA' stroke='%232D2D2D' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E") 3 3, pointer !important;
+}
+
+/* 3. Text Cursor for your Inputs (Keeps standard text selector) */
+input[type="text"], input {
+  cursor: text;
+}   
+/* 1. FORCE FULL HEIGHT on all parent containers */
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden; /* Prevents scrollbars */
+}
+
+/* 2. Global Font Setup */
+body {
+  font-family: 'Delicious Handrawn', cursive;
+  -webkit-font-smoothing: antialiased;
+}
