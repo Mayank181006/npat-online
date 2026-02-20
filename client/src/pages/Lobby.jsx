@@ -132,7 +132,7 @@ function Lobby({ socket }) {
                 <div key={i} className="flex flex-col items-center">
 
                   {/* Avatar Circle */}
-                  <div className={`w-20 h-20 md:w-28 md:h-28 rounded-full border-[6px] flex items-center justify-center bg-white shadow-xl transition-all duration-500  ${
+                  <div className={`w-16 h-16 md:w-28 md:h-28 rounded-full border-[6px] flex items-center justify-center bg-white shadow-xl transition-all duration-500  ${
                    player
                       ? "border-black animate-bounce-in"
                       : "border-gray-300 border-dashed opacity-40 bg-transparent"
