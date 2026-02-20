@@ -119,7 +119,7 @@ function Lobby({ socket }) {
 
 
           {/* Players Grid */}
-          <div className="flex flex-wrap justify-center gap-8">
+          <div className="flex flex-wrap justify-center gap-4 md:gap-8">
             {[0, 1, 2, 3].map((i) => {
               const player = players[i];
 
@@ -132,7 +132,7 @@ function Lobby({ socket }) {
                 <div key={i} className="flex flex-col items-center">
 
                   {/* Avatar Circle */}
-                  <div className={`w-16 h-16 md:w-28 md:h-28 rounded-full border-[6px] flex items-center justify-center bg-white shadow-xl transition-all duration-500  ${
+                  <div className={`w-12 h-12 md:w-28 md:h-28 rounded-full border-[6px] flex items-center justify-center bg-white shadow-xl transition-all duration-500  ${
                    player
                       ? "border-black animate-bounce-in"
                       : "border-gray-300 border-dashed opacity-40 bg-transparent"
