@@ -7,13 +7,11 @@ import {
   Fish, Snail, Ghost, Skull, Zap, 
   Crown, Rocket, Smile, Panda 
 } from 'lucide-react';
-
 const AVATAR_MAP = {
   Cat, Dog, Bird, Rabbit, Turtle, 
   Fish, Snail, Ghost, Skull, Zap, 
   Crown, Rocket, Smile, Panda
 };
-
 function VictoryModal({ players, onPlayAgain }) {
   const sortedPlayers = [...players].sort((a, b) => b.scores - a.scores);
   const winner = sortedPlayers[0];
