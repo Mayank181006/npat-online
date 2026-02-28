@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Hourglass, Loader2, Volume2, VolumeX } from 'lucide-react';
 import bgImage from '../assets/bg_npat.png';
+import VictoryModal from '../components/victoryModal.jsx';// Adjust path if needed
 
 // ✅ IMPORT ALL AVATAR ICONS
 import {
@@ -40,6 +41,8 @@ function GameRoom({ socket }) {
     const [countdown, setCountdown] = useState(3);
     const [timeLeft, setTimeLeft] = useState(60);
     const [myScore, setMyScore] = useState(0);
+    const [gameOverData, setGameOverData] = useState(null);
+    const [isProcessing, setIsProcessing] = useState(false);
 
     useEffect(() => {
         if (scrollRef.current) {
@@ -90,6 +93,7 @@ function GameRoom({ socket }) {
         socket.emit("player_finished_round", { roomId });
     };
 
+
     useEffect(() => {
         socket.emit("get_game_data", roomId);
 
@@ -104,6 +108,7 @@ function GameRoom({ socket }) {
         });
 
         socket.on("round_start", (data) => {
+            setIsProcessing(false);
             setGameData({
                 round: data.round,
                 letter: data.letter,
@@ -146,10 +151,14 @@ function GameRoom({ socket }) {
             }, 1000);
         });
 
+        socket.on("freeze_game", () => {
+            setIsProcessing(true);
+        });
+
         socket.on("game_over", (players) => {
-            const winner = players.sort((a, b) => b.scores - a.scores)[0];
-            alert(`Game Over! Winner: ${winner.name}`);
-            navigate('/');
+            // Remove the alert() and navigate('/')
+            // Just save the final players list to trigger the modal!
+            setGameOverData(players);
         });
 
         return () => {
@@ -168,6 +177,12 @@ function GameRoom({ socket }) {
             handleFinish();
         }
     }, [timeLeft, showTransition, isSubmitted]);
+
+    const canSubmit = 
+        inputs?.name?.trim() !== "" &&
+        inputs?.place?.trim() !== "" &&
+        inputs?.animal?.trim() !== "" &&
+        inputs?.thing?.trim() !== "";
 
     return (
         <div
@@ -268,7 +283,7 @@ function GameRoom({ socket }) {
                                 {['name', 'place', 'animal', 'thing'].map((field) => (
                                     <div key={field} className="flex-1 p-1 md:p-2 border-r-2 border-gray-300 flex items-center">
                                         <input
-                                            disabled={isSubmitted}
+                                            disabled={isSubmitted || isProcessing}
                                             className="w-full bg-transparent border-b-2 border-gray-400 focus:border-blue-500 focus:outline-none text-center font-bold text-gray-800 placeholder-gray-400 disabled:opacity-50 text-base md:text-xl"
                                             placeholder={gameData.letter + "..."}
                                             value={inputs[field]}
@@ -283,9 +298,13 @@ function GameRoom({ socket }) {
                                     {!isSubmitted ? (
                                         <button
                                             onClick={handleFinish}
-                                            className="w-full bg-[#FF5722] hover:bg-[#E64A19] text-white font-bold py-1.5 md:py-2 rounded-full shadow-md text-sm md:text-lg transition-transform active:scale-95 border-2 border-white"
+                                            disabled={!canSubmit || isProcessing} // ✅ Locks button if empty or processing
+                                            className={`w-full font-bold py-1.5 md:py-2 rounded-full shadow-[2px_2px_0px_rgba(0,0,0,1)] text-sm md:text-lg transition-transform border-2 border-white ${(!canSubmit || isProcessing)
+                                                    ? 'bg-gray-400 text-gray-200 cursor-not-allowed opacity-80 shadow-none'
+                                                    : 'bg-[#FF5722] hover:bg-[#E64A19] text-white active:scale-95 active:shadow-none'
+                                                }`}
                                         >
-                                            Submit
+                                            {isProcessing ? "Grading..." : "Submit"}
                                         </button>
                                     ) : (
                                         <div className="flex flex-col items-center justify-center text-gray-400">
@@ -357,6 +376,13 @@ function GameRoom({ socket }) {
                     </div>
 
                 </div>
+            )}
+            {/* --- VICTORY MODAL --- */}
+            {gameOverData && (
+                <VictoryModal
+                    players={gameOverData}
+                    onPlayAgain={() => navigate('/')}
+                />
             )}
         </div>
     );

@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import bgImage from '../assets/bg_npat.png';
-import {
+import { 
   Copy, Check, Info, // UI Icons
-  Dog, Cat, Bird, Panda // The 4 Player Avatars
+  // ✅ IMPORT ALL AVATARS
+  Cat, Dog, Bird, Rabbit, Turtle, 
+  Fish, Snail, Ghost, Skull, Zap, 
+  Crown, Rocket, Smile, Panda 
 } from 'lucide-react';
 
 // --- OUTSIDE the function Lobby() ---
-const FIXED_AVATARS = [Dog, Panda, Cat, Bird];
+const AVATAR_MAP = {
+  Cat, Dog, Bird, Rabbit, Turtle, 
+  Fish, Snail, Ghost, Skull, Zap, 
+  Crown, Rocket, Smile, Panda
+};
 function Lobby({ socket }) {
   const { roomId } = useParams();
   const navigate = useNavigate();
@@ -117,16 +124,15 @@ function Lobby({ socket }) {
             Players
           </h2>
 
-
+          {/* Players Grid */}
           {/* Players Grid */}
           <div className="flex flex-wrap justify-center gap-4 md:gap-8">
             {[0, 1, 2, 3].map((i) => {
               const player = players[i];
 
-              // ✅ STRICT LOGIC: 
-              // Always use the icon at index 'i'. 
-              // If i is 0, it's Dog. If i is 1, it's Panda.
-              const AvatarIcon = FIXED_AVATARS[i];
+              // ✅ NEW LOGIC: Use the player's actual avatar from the backend!
+              // Fallback to Dog only if the avatar string is somehow missing.
+              const AvatarIcon = player ? (AVATAR_MAP[player.avatar] || Dog) : null;
 
               return (
                 <div key={i} className="flex flex-col items-center">
@@ -138,7 +144,7 @@ function Lobby({ socket }) {
                       : "border-gray-300 border-dashed opacity-40 bg-transparent"
                     }`}>
                     {player ? (
-                      // Render the specific icon for this slot
+                      // ✅ Render the real icon
                       <AvatarIcon
                         size={60}
                         strokeWidth={1.5}
