@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Hourglass, Loader2, Volume2, VolumeX } from 'lucide-react';
 import bgImage from '../assets/bg_npat.png';
-import VictoryModal from '../components/victoryModal.jsx';// Adjust path if needed
+import VictoryModal from '../components/VictoryScreen.jsx';// Adjust path if needed
 
 // ✅ IMPORT ALL AVATAR ICONS
 import {
